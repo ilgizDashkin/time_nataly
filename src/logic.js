@@ -46,9 +46,15 @@ function time_calc(
   end.setMinutes(minut_end);
   let res_time = (end - start) / 3600000;
   let hour = Math.trunc(res_time);
-  let minutes = ((res_time % 1) * 60).toFixed(1);
+  let minutes = Number(((res_time % 1) * 60).toFixed(1));
   console.log({ hour: hour, minutes: minutes });
   return { hour: hour, minutes: minutes };
 }
 // time_calc("2020-02-28", "2020-02-29", 23, 30, 0, 45);
-export { pr_names, date_now,time_calc};
+
+// форматируем дату наряда
+function date_format(date_str='2020-03-29'){
+  date_str=date_str.split('-').reverse().join('.')
+return date_str
+}
+export { pr_names, date_now,time_calc,date_format};

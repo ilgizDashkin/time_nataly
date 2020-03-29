@@ -5,14 +5,14 @@ import TimeElm from './componets/TimeElm'
 import NarydNomer from './componets/NarydName';
 import Proizvod from './componets/Proizvod';
 import Result from './componets/Result';
-import { date_now, pr_names, time_calc } from './logic'
+import { date_now, pr_names, time_calc,date_format } from './logic'
 // import generate from './to_word';
 
 function App() {
   let pr_massiv = [];
   let i = 1;
   pr_names.forEach(elem => {
-    pr_massiv.push({ id: i, name: elem, nomers: "", hour: 0, minut: 0 });
+    pr_massiv.push({ id: i, name: elem, nomers: "", hour: 0, minut: 0, hour_part:0});
     i++;
   });
   // console.log("создаем объекты с данными производителей в массив с которым будем работать")
@@ -36,19 +36,21 @@ function App() {
       let time_obj = time_calc(date_start, date_end, hour_start, minut_start, hour_end, minut_end)
 
       function insert_data(index) {
-        let nomers = massiv[index].nomers + nomer + ": " + time_obj.hour + "ч " + time_obj.minutes + "мин; ";
+        let nomers = massiv[index].nomers +"№"+ nomer +" от"+date_format(date_start)+ ": " + time_obj.hour + "ч " + time_obj.minutes + "мин; ";
         let hour = massiv[index].hour + Number(time_obj.hour);
         let minut = massiv[index].minut + Number(time_obj.minutes);
         if (minut >= 60) {
           hour += 1;
           minut -= 60;
         }
-        return [nomers, hour, minut]
+        let hour_part
+        minut?hour_part=(minut/60).toFixed(2):hour_part=hour
+        return [nomers, hour, minut,hour_part]
       }
 
       const new_massiv = massiv.map(function (proizv, index) {
         if (proizv.name === name) {
-          [proizv.nomers, proizv.hour, proizv.minut] = insert_data(index)
+          [proizv.nomers, proizv.hour, proizv.minut,proizv.hour_part] = insert_data(index)
           status.textContent=`добавлено ${proizv.name} наряд: ${nomer} ${time_obj.hour}ч. ${time_obj.minutes}мин.`
         }
         return proizv
