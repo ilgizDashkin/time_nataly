@@ -34,7 +34,7 @@ function generate() {
     doc.addParagraph(paragraph0)
 
     let text_arr = []
-    for (let i = 1; i < 13; i++) {
+    for (let i = 1; i < 11; i++) {//здесь вносим число производителей +1 иначе не будет сохранять ворд файл
         let str = String(i);
         const elem = document.getElementById(str).textContent
         let s_text = elem.split(',')
