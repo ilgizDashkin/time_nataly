@@ -40,6 +40,8 @@ function generate() {
         let s_text = elem.split(',')
         text_arr.push(s_text)
     }
+    
+    console.log(`массив текста ${text_arr}`)
 
     table_from_matrix(doc, text_arr)
 

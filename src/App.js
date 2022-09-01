@@ -46,7 +46,7 @@ function App() {
       let time_obj = time_calc(date_start, date_end, hour_start, minut_start, hour_end, minut_end)
 
       function insert_data(index) {
-        let nomers = massiv[index].nomers + "№" + nomer + " от" + date_format(date_start) + ": " + time_obj.hour + "ч " + time_obj.minutes + "мин; ";
+        let nomers = massiv[index].nomers +"Дата " +date_format(date_start)+" " +  "№" + nomer +" начало "+hour_start+":"+ minut_start+" окончание "+hour_end+":"+minut_end+ " продолжительность " + time_obj.hour + "ч " + time_obj.minutes + "мин. ";
         let hour = massiv[index].hour + Number(time_obj.hour);
         let minut = massiv[index].minut + Number(time_obj.minutes);
         if (minut >= 60) {
@@ -55,7 +55,7 @@ function App() {
         }
         let hour_part
         minut ? hour_part = (minut / 60).toFixed(2) : hour_part = hour
-        return [nomers, hour, minut, hour_part]
+        return [nomers, hour, minut, hour_part,hour_start, minut_start, hour_end, minut_end]
       }
 
       const new_massiv = massiv.map(function (proizv, index) {
