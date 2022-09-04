@@ -33,17 +33,63 @@ function generate() {
     doc.addParagraph(paragraph2);
     doc.addParagraph(paragraph0)
 
+    //важно!!!!!!!!!!!!!!!!!!!!!!!!!
+    const num_proizv = 11//здесь вносим число производителей +1 иначе не будет сохранять ворд файл
+
     let text_arr = []
-    for (let i = 1; i < 11; i++) {//здесь вносим число производителей +1 иначе не будет сохранять ворд файл
+    for (let i = 1; i < num_proizv; i++) {
         let str = String(i);
         const elem = document.getElementById(str).textContent
         let s_text = elem.split(',')
         text_arr.push(s_text)
     }
-    
+
     console.log(`массив текста ${text_arr}`)
 
-    table_from_matrix(doc, text_arr)
+    /**
+    * Возвращает массив из с данными для таблицы учета времени производителя из массива времени работы по нарядам.
+    *
+    * @param {array} arr входной 1-мерный массив
+    * @param {string} sp слово разделитель.
+    * @param {string} a регулярное выражение для поиска.
+    * @param {string} a1 регулярное выражение для удаления из таблицы лишних слов.
+    * @return {array} result итоговый 2-мерный массив
+    */
+    function search_and_split_to_arr(result = [], arr, sp = ' дата ', a = /\S+/, b = /№\w+/, c = / начало \S+/, d = / окончание \S+/, b1 = /№/, c1 = / начало /, d1 = / окончание /) {
+        const time_arr = arr[3].split(sp)//создаем массив деля текст по разделителю слова " дата "
+        time_arr.shift()//первый элемент удаляем так как он пустой
+        //для каждого элемента находим искомые данные и заносим в массив
+        time_arr.forEach(element => {
+            let data = element.match(a)[0]
+            let nomer = element.match(b)[0].replace(b1, '')
+            let begin = element.match(c)[0].replace(c1, '')
+            let end = element.match(d)[0].replace(d1, '')
+            result.push([data, nomer, begin, end, arr[0]])//arr[0] это фамилия производителя
+        }
+        )
+        // console.log(result)
+        return result
+    }
+
+    let golovina = [["дата", "номер", "начало", "окончание", 'фамилия']]//создаем загаловок для таблицы учета 
+    for (let i = 0; i < num_proizv - 1; i++) {
+        //хитрый трюк результирующая таблица задается с загаловком и изменяется при каждом вызове цикла
+        search_and_split_to_arr(result = golovina, arr = text_arr[i])
+    }
+
+    console.log(golovina)
+
+    table_from_matrix(doc, text_arr)//рисуем 1 таблицу подсчета времени
+
+    doc.addParagraph(paragraph0)
+    const paragraph3 = new Paragraph();
+    const institutionText31 = new TextRun(`учет по нарядам ${getDateNow()}`).bold().size(28).underline();
+    paragraph3.addRun(institutionText2);
+    paragraph3.addRun(institutionText31);
+    doc.addParagraph(paragraph3);
+    doc.addParagraph(paragraph0)
+
+    table_from_matrix(doc, golovina)//рисуем 2 таблицу журнала работы по нарядам
 
     const packer = new Packer();
     packer.toBlob(doc).then(blob => {

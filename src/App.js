@@ -46,7 +46,7 @@ function App() {
       let time_obj = time_calc(date_start, date_end, hour_start, minut_start, hour_end, minut_end)
 
       function insert_data(index) {
-        let nomers = massiv[index].nomers +"Дата " +date_format(date_start)+" " +  "№" + nomer +" начало "+hour_start+":"+ minut_start+" окончание "+hour_end+":"+minut_end+ " продолжительность " + time_obj.hour + "ч " + time_obj.minutes + "мин. ";
+        let nomers = massiv[index].nomers+" дата "+date_format(date_start)+" " +  "№" + nomer +" начало "+hour_start+":"+ minut_start+" окончание "+hour_end+":"+minut_end+ " всего " + time_obj.hour + "ч " + time_obj.minutes + "мин. ";
         let hour = massiv[index].hour + Number(time_obj.hour);
         let minut = massiv[index].minut + Number(time_obj.minutes);
         if (minut >= 60) {
@@ -60,7 +60,7 @@ function App() {
 
       const new_massiv = massiv.map(function (proizv, index) {
         if (proizv.name === name) {
-          [proizv.nomers, proizv.hour, proizv.minut, proizv.hour_part] = insert_data(index)
+          [proizv.nomers, proizv.hour, proizv.minut, proizv.hour_part,proizv.hour_start,proizv.minut_start, proizv.hour_end, proizv.minut_end] = insert_data(index)
           status.textContent = `добавлено ${proizv.name} наряд: ${nomer} ${time_obj.hour}ч. ${time_obj.minutes}мин.`
         }
         return proizv

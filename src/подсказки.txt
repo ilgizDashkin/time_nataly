@@ -1,3 +1,4 @@
 надо установить bootstrap
 для сохранения в ворде вручную подключил в index.html FileSaver.js docxjs 
 чтоб работало после npm run build в index.html проставил точки перед путями ./ или в package.json "homepage": "."
+при изменении числа производитетелей измени num_proizv в to_word.js
