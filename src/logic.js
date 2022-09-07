@@ -52,8 +52,22 @@ function time_calc(
 // time_calc("2020-02-28", "2020-02-29", 23, 30, 0, 45);
 
 // форматируем дату наряда
-function date_format(date_str='2020-03-29'){
-  date_str=date_str.split('-').reverse().join('.')
-return date_str
+function date_format(date_str = '2020-03-29') {
+  date_str = date_str.split('-').reverse().join('.')
+  return date_str
 }
-export { pr_names, date_now,time_calc,date_format};
+
+/**
+    * Возвращает время в формате 2-х цифр прибавляя ноль для однозначных часов или минут
+    *
+    * @param {string} str входное время
+    * @return {string} str преобразованое время
+    */
+function time_zero_format(str) {
+  str=str.toString()
+  if (str.length === 1) {
+    str = "0" + str
+  }
+  return str
+}
+export { pr_names, date_now, time_calc, date_format,time_zero_format };
